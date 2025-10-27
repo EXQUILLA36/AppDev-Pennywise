@@ -1,57 +1,17 @@
-import React from "react";
+import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+
+import BackgroundCircle from "../components/backgroundCircle";
 
 export default function LandingPage() {
   const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const opacity = useTransform(scrollY, [0, 500], [1, 0]);
   const y = useTransform(scrollY, [0, 300], [0, -300]);
 
   return (
-    <div className="relative flex flex-col gap-5 w-full h-full z-10">
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0.2, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="fixed -bottom-210 -right-90 w-[90vw] aspect-square bg-[#1D1D1D] rounded-full z-0"
-        ></motion.div>
-        <motion.div
-          initial={{ opacity: 0.2, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="fixed -bottom-170 -right-40 w-[70vw] aspect-square bg-[#1A1A1A] rounded-full z-0"
-        ></motion.div>
-        <motion.div
-          initial={{ opacity: 0.6, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="fixed -bottom-90 right-30 w-[40vw] aspect-square bg-[#191818] rounded-full z-0"
-        ></motion.div>
-
-        <motion.div
-          style={{ opacity, y }}
-          initial={{ opacity: 0.9, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="fixed w-[8vw] top-[8vw] right-[50vw] aspect-square bg-[#191919] rounded-full shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] z-0"
-        ></motion.div>
-        <motion.div
-          style={{ opacity, y }}
-          initial={{ opacity: 0.8, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="fixed w-[10vw] top-[30vw] left-[30vw] aspect-square bg-[#191919] rounded-full shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] z-0"
-        ></motion.div>
-        <motion.div
-          style={{ opacity, y }}
-          initial={{ opacity: 0.8, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="fixed w-[5vw] top-[43vw] right-[2vw] aspect-square bg-[#191919] rounded-full shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] z-0"
-        ></motion.div>
-      </div>
-
-      <div className="relative flex flex-row w-full h-full z-10">
+    <div className="flex flex-col w-full h-screen ">
+      {/* Hero Section */}
+      <section className="flex flex-row w-full h-fit p-5 z-10">
         <motion.div
           style={{ opacity }}
           className="flex flex-col gap-2 w-[80%] h-full pt-[10vw] px-[3vw]"
@@ -68,7 +28,7 @@ export default function LandingPage() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             className="typo-par text-gray-300"
           >
             Visualize your cash flow, set goals, and stay on top of every
@@ -78,7 +38,7 @@ export default function LandingPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             className="flex flex-row gap-5 mt-5"
           >
             <button className="typo-par poppins-medium rounded-xl bg-red-900 px-[3vw] py-[1vw] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]">
@@ -92,12 +52,76 @@ export default function LandingPage() {
         <div className="flex justify-center items-center w-full h-full">
           <div className="w-[80%] aspect-square bg-[#111111] shadow-lg shadow-red-600/40 rounded-full z-0"></div>
         </div>
-      </div>
-      <div className="relative flex flex-row w-full h-fit z-10">
-        <div className="flex justify-center items-center w-full h-full">
-          <div className="w-[80%] aspect-square bg-[#111111] shadow-lg shadow-red-600/40 rounded-full z-0"></div>
+      </section>
+
+      {/* Feature Section */}
+      <section className="flex flex-col items-center w-full h-[1000vw] z-10">
+        <motion.h1 className="text-white montserrat-bold typo-head leading-tight text-center">
+          Everything You Need to{" "}
+          <span className="text-[#F25912]">Manage Money</span>
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="typo-par text-gray-300"
+        >
+          Powerful features designed to make financial management effortless
+        </motion.p>
+        <div className="flex flex-row justify-between w-full h-fit p-10">
+
+          <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300">
+            <div className="flex w-[24%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]"><img src="./images/icons/wallet.svg" alt="wallet icon" className="w-full aspect-square" /></div>
+            <div>
+              <motion.h1 className="text-white montserrat-bold typo-sub leading-tight">
+                Money Tracker
+              </motion.h1>
+              <motion.p className="typo-par text-gray-300">
+                Monitor all your transactions in one place with detailed categorization
+              </motion.p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300">
+            <div className="flex w-[24%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]"><img src="./images/icons/graph.svg" alt="graphwallet icon" className="w-full aspect-square" /></div>
+            <div>
+              <motion.h1 className="text-white montserrat-bold typo-sub leading-tight">
+                Budget Management
+              </motion.h1>
+              <motion.p className="typo-par text-gray-300">
+                Set budgets for different categories and track your spending limits
+              </motion.p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300">
+            <div className="flex w-[24%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]"><img src="./images/icons/trend.svg" alt="trend icon" className="w-full aspect-square" /></div>
+            <div>
+              <motion.h1 className="text-white montserrat-bold typo-sub leading-tight">
+                Financial Insights
+              </motion.h1>
+              <motion.p className="typo-par text-gray-300">
+                Set budgets for different categories and track your spending limits
+              </motion.p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300">
+            <div className="flex w-[24%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]"><img src="./images/icons/shield.svg" alt="shield icon" className="w-full aspect-square" /></div>
+            <div>
+              <motion.h1 className="text-white montserrat-bold typo-sub leading-tight">
+                Secure & Private
+              </motion.h1>
+              <motion.p className="typo-par text-gray-300">
+                Your financial data is encrypted and protected with top-tier security
+              </motion.p>
+            </div>
+          </div>
+          
         </div>
-      </div>
+      </section>
+      <footer>
+        
+      </footer>
+
+      <BackgroundCircle></BackgroundCircle>
     </div>
   );
 }

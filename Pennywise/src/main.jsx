@@ -15,9 +15,9 @@ import { motion } from "framer-motion";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <div className="flex flex-col items-center pt-2 w-[100vw] h-[100vh] bg-[linear-gradient(to_top,#101010,#2B2B2B)]">
+    <div className="flex flex-col h-screen">
       <Router>
-        <div className="flex flex-row items-center justify-between gap-5 p-8 w-[99%] h-[3vw] rounded-2xl montserrat-medium z-50">
+        <div className="flex flex-row px-6 py-12 items-center justify-between gap-5 w-full h-[3vw] rounded-2xl montserrat-medium z-50">
           <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
