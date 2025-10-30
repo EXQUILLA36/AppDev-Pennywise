@@ -32,7 +32,6 @@ export default function BackgroundCircle() {
         start: "top 60%",
         end: "bottom 30%",
         toggleActions: "play reverse play reverse",
-        markers: true,
       },
     });
   }, []);

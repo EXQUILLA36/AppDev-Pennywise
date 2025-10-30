@@ -41,7 +41,6 @@ export default function LandingPage() {
         start: "top 90%",
         end: "bottom 30%",
         toggleActions: "play none play reverse",
-        markers: true,
       },
       yPercent: 130,
       stagger: 0.5
