@@ -21,7 +21,7 @@ export default function LandingPage() {
       ease: "power4.inOut",
       scrollTrigger: {
         trigger: ".slide-right-stagger",
-        start: "top 60%",
+        start: "top 80%",
         end: "bottom 30%",
         toggleActions: "play reverse play reverse",
         markers: true,
@@ -95,7 +95,7 @@ export default function LandingPage() {
         </div>
         <div className="flex flex-row justify-between w-full h-fit p-10">
           <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300">
-            <div className="flex w-[24%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]">
+            <div className="flex w-[20%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]">
               <img
                 src="./images/icons/wallet.svg"
                 alt="wallet icon"
@@ -113,7 +113,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300">
-            <div className="flex w-[24%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]">
+            <div className="flex w-[20%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]">
               <img
                 src="./images/icons/graph.svg"
                 alt="graphwallet icon"
@@ -131,7 +131,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300">
-            <div className="flex w-[24%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]">
+            <div className="flex w-[20%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]">
               <img
                 src="./images/icons/trend.svg"
                 alt="trend icon"
@@ -149,7 +149,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300">
-            <div className="flex w-[24%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]">
+            <div className="flex w-[20%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]">
               <img
                 src="./images/icons/shield.svg"
                 alt="shield icon"
