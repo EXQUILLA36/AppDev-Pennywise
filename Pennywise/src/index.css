@@ -64,7 +64,7 @@
 }
 
 .typo-par {
-  @apply text-[clamp(1rem,1vw,2rem)]
+  @apply text-[clamp(0.5rem,1vw,2rem)]
 }
 
 h1 {
