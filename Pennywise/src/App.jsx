@@ -58,7 +58,7 @@ export default function App() {
           </div>
           <div className="navigation-links flex gap-6">
             <NavLink
-              to="/home"
+              to="/landingpage"
               className={({ isActive }) =>
                 isActive
                   ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
@@ -66,6 +66,16 @@ export default function App() {
               }
             >
               Home
+            </NavLink>
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                  : "text-white typo-par hover:text-red-400 transition-all"
+              }
+            >
+              Dashboard
             </NavLink>
             <NavLink
               to="/transactions"
