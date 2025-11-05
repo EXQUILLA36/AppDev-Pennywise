@@ -47,7 +47,7 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-[5vw] w-full h-screen">
+    <div className="smooth-wrapper flex flex-col gap-[5vw] w-full h-screen">
       {/* Hero Section */}
       <section className="flex flex-row w-full h-fit p-5 z-10">
         <div className="flex flex-col gap-5 w-[80%] h-full pt-[10vw] px-[3vw]">
@@ -147,7 +147,7 @@ export default function LandingPage() {
               </motion.p>
             </div>
           </div>
-          <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300">
+          <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl emboss hover:scale-101 transition-all duration-300">
             <div className="flex w-[25%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]">
               <img
                 src="./images/icons/shield.svg"

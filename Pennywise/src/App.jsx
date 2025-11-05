@@ -11,6 +11,7 @@ import "./index.css";
 import Login from "./pages/login";
 import LandingPage from "./pages/landingPage";
 import Dashboard from "./pages/dashboard";
+import Transactions from "./pages/transactions";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
@@ -113,7 +114,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/landingpage" replace />} />
           <Route path="/landingpage" element={<LandingPage />} />
-          <Route path="/home" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/transactions" element={<Transactions />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </Router>
