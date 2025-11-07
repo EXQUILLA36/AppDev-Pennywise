@@ -62,7 +62,9 @@ export default function transactions() {
 
       <section className="dashboard-item2 flex flex-col gap-3 w-full h-[37vw] p-[1vw] bg-[#191919] rounded-xl emboss">
         <div className="flex flex-row justify-between items-center pb-3 border-b border-gray-700">
-
+            <form action="">
+                <input type="text" />
+            </form>
         </div>
       </section>
 

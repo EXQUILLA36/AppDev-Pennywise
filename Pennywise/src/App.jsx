@@ -8,13 +8,23 @@ import {
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import Login from "./pages/login";
+// import Login from "./pages/login";
+// import Signup from "./pages/signup";
+import Signin from "./pages/signIn";
+import Signup from "./pages/signUp";
 import LandingPage from "./pages/landingPage";
 import Dashboard from "./pages/dashboard";
 import Transactions from "./pages/transactions";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
+import {
+  SignedIn,
+  SignedOut,
+  SignIn,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
 
 export default function App() {
   useGSAP(() => {
@@ -57,66 +67,71 @@ export default function App() {
             />
             <h2 className="logo-text typo-par">Pennywise</h2>
           </div>
-          <div className="navigation-links flex gap-6">
-            <NavLink
-              to="/landingpage"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
-                  : "text-white typo-par hover:text-red-400 transition-all"
-              }
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
-                  : "text-white typo-par hover:text-red-400 transition-all"
-              }
-            >
-              Dashboard
-            </NavLink>
-            <NavLink
-              to="/transactions"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
-                  : "text-white typo-par hover:text-red-400 transition-all"
-              }
-            >
-              Transactions
-            </NavLink>
-            <NavLink
-              to="/marketplace"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
-                  : "text-white typo-par hover:text-red-400 transition-all"
-              }
-            >
-              Marketplace
-            </NavLink>
-            <NavLink
-              to="/accou"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
-                  : "text-white typo-par hover:text-red-400 transition-all"
-              }
-            >
-              Account
-            </NavLink>
+          <div className="navigation-links items-center flex gap-6">
+            <SignedOut>
+              <NavLink
+                to="/landingpage"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Home
+              </NavLink>
+            </SignedOut>
+            <SignedIn>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Dashboard
+              </NavLink>
+              <NavLink
+                to="/transactions"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Transactions
+              </NavLink>
+              <NavLink
+                to="/marketplace"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Marketplace
+              </NavLink>
+              <UserButton
+                appearance={{
+                  elements: {
+                    userButtonAvatarBox:
+                      "!w-[2.5vw] !h-[2.5vw] !border-[2px] !border-red-500/60",
+                  },
+                }}
+              ></UserButton>
+            </SignedIn>
           </div>
         </div>
 
         <Routes>
           <Route path="/" element={<Navigate to="/landingpage" replace />} />
           <Route path="/landingpage" element={<LandingPage />} />
+          <Route path="login" element={<Signin />} />
+          <Route path="register" element={<Signup />} />
+          {/* <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/transactions" element={<Transactions />} />
-          <Route path="/login" element={<Login />} />
         </Routes>
       </Router>
     </div>

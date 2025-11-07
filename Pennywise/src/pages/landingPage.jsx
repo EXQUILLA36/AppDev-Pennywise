@@ -1,8 +1,10 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
 import { ScrollTrigger, SplitText } from "gsap/all";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { UserButton } from "@clerk/clerk-react";
 
 import BackgroundCircle from "../components/backgroundCircle";
 
@@ -11,6 +13,7 @@ export default function LandingPage() {
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const y = useTransform(scrollY, [0, 300], [0, -300]);
+  const navigate = useNavigate();
 
   useGSAP(() => {
     gsap.from(".slide-right-stagger", {
@@ -61,16 +64,16 @@ export default function LandingPage() {
             you deserve.
           </p>
           <div className="slide-right-stagger flex flex-row gap-5 mt-5">
-            <button className="typo-par poppins-medium rounded-xl bg-red-900 px-[3vw] py-[1vw] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:scale-102 duration-300 cursor-pointer">
+            <Link to="/login" className="typo-par poppins-medium rounded-xl bg-red-900 px-[3vw] py-[1vw] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:scale-102 duration-300 cursor-pointer">
               Get Started
-            </button>
+            </Link>
             <button className="typo-par poppins-medium rounded-xl border-2 px-[2vw] py-[1vw] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:scale-102 duration-300 cursor-pointer">
               Learn More
             </button>
           </div>
         </div>
         <div className="illustration flex justify-center items-center w-full h-full">
-          <div className="w-[33vw] overflow-clip aspect-square bg-[linear-gradient(to_bottom,_rgba(43,41,41,1),_rgba(22,22,22,1))] shadow-lg shadow-red-600/40 rounded-full border-red-900/50 border-2 z-0">
+          <div className="w-[33vw] overflow-clip aspect-square bg-[linear-gradient(to_bottom,rgba(43,41,41,1),rgba(22,22,22,1))] shadow-lg shadow-red-600/40 rounded-full border-red-900/50 border-2 z-0">
             <img
               src="./images/illustrations/model.png"
               alt="model illustration"
