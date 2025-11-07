@@ -75,7 +75,7 @@ export default function Dashboard() {
       if (account) {
         const data = await getUserFromFirestore(account.clerkId);
         setUserData(data);
-        console.log(data)
+        console.log(data);
         setWalletContent(data.wallet);
       }
     }
@@ -140,7 +140,8 @@ export default function Dashboard() {
           </div>
           <div className="dashboard-item flex flex-col">
             <h1 className="poppins-bold typo-subheader">
-              <span className="montserrat-bold">₱</span> {walletContent.total_balance}
+              <span className="montserrat-bold">₱</span>{" "}
+              {walletContent.total_balance}
             </h1>
             <span className="text-amber-600">+12.5% from last month</span>
           </div>
@@ -155,7 +156,8 @@ export default function Dashboard() {
           </div>
           <div className="dashboard-item flex flex-col">
             <h1 className="poppins-bold typo-subheader">
-              <span className="montserrat-bold">₱</span> {walletContent.total_income}
+              <span className="montserrat-bold">₱</span>{" "}
+              {walletContent.total_income}
             </h1>
             <span className="text-amber-600">+12.5% from last month</span>
           </div>
@@ -170,7 +172,8 @@ export default function Dashboard() {
           </div>
           <div className="dashboard-item flex flex-col">
             <h1 className="poppins-bold typo-subheader">
-              <span className="montserrat-bold">₱</span> {walletContent.total_expenses}
+              <span className="montserrat-bold">₱</span>{" "}
+              {walletContent.total_expenses}
             </h1>
             <span className="text-amber-600">+12.5% from last month</span>
           </div>
@@ -182,7 +185,8 @@ export default function Dashboard() {
           </div>
           <div className="dashboard-item flex flex-col">
             <h1 className="poppins-bold typo-subheader">
-              <span className="montserrat-bold">₱</span> {walletContent.total_savings}
+              <span className="montserrat-bold">₱</span>{" "}
+              {walletContent.total_savings}
             </h1>
             <span className="text-amber-600">+12.5% from last month</span>
           </div>
@@ -228,7 +232,10 @@ export default function Dashboard() {
               ))}
           </div>
 
-          <button onClick={() => navigate("/transactions")} className="bg-[#191919] p-[0.5vw] rounded-sm shadow-[-4px_-4px_10px_rgba(255,255,255,0.1),5px_4px_15px_rgba(0,0,0,7)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-102 transition-all duration-500 cursor-pointer">
+          <button
+            onClick={() => navigate("/transactions")}
+            className="bg-[#191919] p-[0.5vw] rounded-sm shadow-[-4px_-4px_10px_rgba(255,255,255,0.1),5px_4px_15px_rgba(0,0,0,7)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-102 transition-all duration-500 cursor-pointer"
+          >
             View Transactions
           </button>
         </section>

@@ -1,23 +1,58 @@
 import React, { useState, useEffect, useRef } from "react";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 import { ScrollTrigger, SplitText } from "gsap/all";
+import { useAccount } from "@/utils/account";
+import { useTransactions } from "@/hooks/transactionHook";
 import { useGSAP } from "@gsap/react";
+import { columns } from "@/components/modules/columns";
+import { DataTable } from "@/components/modules/data-table";
+import { getUserFromFirestore } from "@/firebase/getUSer";
+import BalanceEditor from "@/components/modules/balanceEditor";
 import gsap from "gsap";
 
 export default function transactions() {
   const modal = useRef(null);
   const [openModal, setOpenModal] = useState(false);
+  const account = useAccount();
+  const [incomeSources, setIncomeSources] = useState([]);
+  const [expenseSources, setExpenseSources] = useState([]);
+  const [transactions, setTransations] = useState([]);
 
   useEffect(() => {
-    console.log("Modal state changed:", openModal);
-    const openModel = () => {
-      if (openModal) {
-        modal.current.showModal();
-      } else {
-        modal.current.close();
+    try {
+      if (account) {
+        const userRef = doc(db, "users", account.clerkId);
+
+        const unsubscribe = onSnapshot(userRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            setTransations(data.transactions);
+            setExpenseSources(data.expenseSource || {});
+            setIncomeSources(data.incomeSource || []);
+            console.log("🔁 Firestore updated:", data);
+          } else {
+            console.warn("⚠️ User document does not exist yet!");
+          }
+        });
+
+        // Cleanup when component unmounts or account changes
+        return () => unsubscribe();
       }
-    };
-    openModel();
-  }, [openModal]);
+    } catch (err) {
+      console.error("❌ Error processing account:", err);
+    }
+
+    async function fetchUserData() {
+      if (account) {
+        const data = await getUserFromFirestore(account.clerkId);
+        setTransations(data.transactions);
+        setExpenseSources(data.expenseSource);
+        setIncomeSources(data.incomeSource);
+      }
+    }
+    fetchUserData();
+  }, [account]);
 
   useGSAP(() => {
     gsap.from(".dashboard-header", {
@@ -52,20 +87,28 @@ export default function transactions() {
             Track and manage all you financial transactions
           </h2>
         </section>
-        <button
+        {account ? (
+          <BalanceEditor
+            ClerkId={account.clerkId}
+            IncomeSource={incomeSources}
+            ExpenseSource={expenseSources}
+          />
+        ) : null}
+        {/* <button
           onClick={() => setOpenModal(true)}
           className="bg-orange-500 h-fit py-[0.8rem] px-[2vw] rounded-2xl montserrat-bold emboss hover:scale-103 hover:bg-orange-400 duration-300 cursor-pointer"
         >
           Add Transaction
-        </button>
+        </button> */}
       </section>
 
       <section className="dashboard-item2 flex flex-col gap-3 w-full h-[37vw] p-[1vw] bg-[#191919] rounded-xl emboss">
         <div className="flex flex-row justify-between items-center pb-3 border-b border-gray-700">
-            <form action="">
-                <input type="text" />
-            </form>
+          <form action="">
+            <input type="text" className="bg-white" />
+          </form>
         </div>
+        <DataTable columns={columns} data={transactions} />
       </section>
 
       <dialog

@@ -25,8 +25,8 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ClerkProvider publishableKey={clerkPubKey} appearance={{ theme: 'night' }}>
+      <Toaster richColors position="top-center" />
       <App />
-      <Toaster placement="top-center" />
     </ClerkProvider>
   </StrictMode>
 );
