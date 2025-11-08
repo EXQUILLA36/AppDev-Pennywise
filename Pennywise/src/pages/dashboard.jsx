@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { useAccount } from "../utils/account";
 import { addUserToFirestore } from "../utils/firebaseUser";
 import { getUserFromFirestore } from "../firebase/getUSer";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
 import { db } from "../firebase/firebase";
 import BalanceEditor from "@/components/modules/balanceEditor";
@@ -20,11 +20,13 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const account = useAccount();
   const [userData, setUserData] = useState(null);
+  const [pageLoading, setPageLoading] = useState(true);
 
   // *WALLET
   const [walletContent, setWalletContent] = useState({});
   const [incomeSources, setIncomeSources] = useState([]);
   const [expenseSources, setExpenseSources] = useState([]);
+  const [dailyChange, setDailyChange] = useState(0);
 
   const { transactions, loading: transactionsLoading } = useTransactions(
     userData?.clerk_id
@@ -64,8 +66,6 @@ export default function Dashboard() {
         return () => unsubscribe();
       } catch (err) {
         console.error("❌ Error processing account:", err);
-      } finally {
-        setLoading(false);
       }
     }
 
@@ -78,8 +78,53 @@ export default function Dashboard() {
         console.log(data);
         setWalletContent(data.wallet);
       }
+      setPageLoading(false);
     }
   }, [account]);
+
+  console.log("LOADING STATE:", pageLoading);
+
+  useEffect(() => {
+    if (!userData || !walletContent?.total_balance) return;
+
+    const today = new Date().toISOString().split("T")[0]; // e.g. "2025-11-07"
+    const yesterday = new Date(Date.now() - 86400000)
+      .toISOString()
+      .split("T")[0]; // e.g. "2025-11-06"
+
+    // If there's no balanceHistory, create an empty one
+    const history = userData.balanceHistory || {};
+
+    // Only store today's balance once per day
+    if (userData.lastUpdated !== today) {
+      const userRef = doc(db, "users", account.clerkId);
+
+      updateDoc(userRef, {
+        [`balanceHistory.${today}`]: walletContent.total_balance,
+        lastUpdated: today,
+      })
+        .then(() =>
+          console.log(
+            `✅ Stored today's balance: ${walletContent.total_balance}`
+          )
+        )
+        .catch((err) =>
+          console.error("❌ Failed to update balanceHistory:", err)
+        );
+    }
+
+    // Now calculate gain/loss % from yesterday to today
+    const yesterdayBalance = history[yesterday] || walletContent.total_balance;
+    const todayBalance = walletContent.total_balance;
+    const percentChange =
+      yesterdayBalance > 0
+        ? ((todayBalance - yesterdayBalance) / yesterdayBalance) * 100
+        : 0;
+
+    setDailyChange(percentChange.toFixed(2)); // ← use a state to display later
+  }, [userData, walletContent]);
+
+  console.log("PERCENTAGE CHANGE:".percentChange);
 
   useEffect(() => {
     if (!transactionsLoading) {
@@ -123,13 +168,13 @@ export default function Dashboard() {
               : "Welcome! Here's your financial overview"}
           </h2>
         </section>
-        {userData ? (
+        {!pageLoading ? (
           <BalanceEditor
             ClerkId={account.clerkId}
             IncomeSource={incomeSources}
             ExpenseSource={expenseSources}
           />
-        ) : null}
+        ) : <button className="shimmer h-fit py-[0.8rem] px-[2vw] rounded-2xl montserrat-bold emboss hover:scale-103 hover:bg-orange-400 duration-300 cursor-pointer">Loading Datas</button>}
       </section>
 
       <section className="flex flex-row gap-[1vw] justify-between">
@@ -139,9 +184,13 @@ export default function Dashboard() {
             <img src="./images/icons/dashboardIcons/wallet.svg" alt="" />
           </div>
           <div className="dashboard-item flex flex-col">
-            <h1 className="poppins-bold typo-subheader">
+            <h1 className="poppins-bold flex flex-row gap-2 items-center typo-subheader">
               <span className="montserrat-bold">₱</span>{" "}
-              {walletContent.total_balance}
+              {pageLoading ? (
+                <div className="shimmer flex w-full h-10 rounded-2xl"></div>
+              ) : (
+                walletContent.total_balance
+              )}
             </h1>
             <span className="text-amber-600">+12.5% from last month</span>
           </div>
@@ -155,9 +204,13 @@ export default function Dashboard() {
             />
           </div>
           <div className="dashboard-item flex flex-col">
-            <h1 className="poppins-bold typo-subheader">
+            <h1 className="poppins-bold flex flex-row gap-2 items-center typo-subheader">
               <span className="montserrat-bold">₱</span>{" "}
-              {walletContent.total_income}
+              {pageLoading ? (
+                <div className="shimmer flex w-full h-10 rounded-2xl"></div>
+              ) : (
+                walletContent.total_income
+              )}
             </h1>
             <span className="text-amber-600">+12.5% from last month</span>
           </div>
@@ -171,9 +224,13 @@ export default function Dashboard() {
             />
           </div>
           <div className="dashboard-item flex flex-col">
-            <h1 className="poppins-bold typo-subheader">
+            <h1 className="poppins-bold flex flex-row gap-2 items-center typo-subheader">
               <span className="montserrat-bold">₱</span>{" "}
-              {walletContent.total_expenses}
+              {pageLoading ? (
+                <div className="shimmer flex w-full h-10 rounded-2xl"></div>
+              ) : (
+                walletContent.total_expenses
+              )}
             </h1>
             <span className="text-amber-600">+12.5% from last month</span>
           </div>
@@ -184,9 +241,13 @@ export default function Dashboard() {
             <img src="./images/icons/dashboardIcons/trending-up.svg" alt="" />
           </div>
           <div className="dashboard-item flex flex-col">
-            <h1 className="poppins-bold typo-subheader">
+            <h1 className="poppins-bold flex flex-row gap-2 items-center typo-subheader">
               <span className="montserrat-bold">₱</span>{" "}
-              {walletContent.total_savings}
+              {pageLoading ? (
+                <div className="shimmer flex w-full h-10 rounded-2xl"></div>
+              ) : (
+                walletContent.total_savings
+              )}
             </h1>
             <span className="text-amber-600">+12.5% from last month</span>
           </div>
@@ -197,7 +258,7 @@ export default function Dashboard() {
         <section className="dashboard-item2 flex flex-col gap-3 w-full h-[25vw] p-[1vw] bg-[#191919] rounded-xl emboss">
           <h1>Recent Transactions</h1>
 
-          <div className="flex flex-col gap-2 w-full h-[90vw] overflow-y-auto">
+          <div className={ pageLoading ? "shimmer rounded-xl flex flex-col gap-2 w-full h-[90vw] overflow-y-auto" : "flex flex-col gap-2 w-full h-[90vw] overflow-y-auto"}>
             {transactions
               .slice(-4)
               .reverse()

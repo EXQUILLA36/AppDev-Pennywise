@@ -15,6 +15,7 @@ import Signup from "./pages/signUp";
 import LandingPage from "./pages/landingPage";
 import Dashboard from "./pages/dashboard";
 import Transactions from "./pages/transactions";
+import Budget from "./pages/budget";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
@@ -102,6 +103,16 @@ export default function App() {
                 Transactions
               </NavLink>
               <NavLink
+                to="/budget"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Budget
+              </NavLink>
+              <NavLink
                 to="/marketplace"
                 className={({ isActive }) =>
                   isActive
@@ -126,11 +137,12 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/landingpage" replace />} />
           <Route path="/landingpage" element={<LandingPage />} />
-          <Route path="login" element={<Signin />} />
-          <Route path="register" element={<Signup />} />
-          {/* <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} /> */}
+
+          <Route path="/login" element={<Signin />} />
+          <Route path="/register" element={<Signup />} />
+          
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/budget" element={<Budget />}/>
           <Route path="/transactions" element={<Transactions />} />
         </Routes>
       </Router>

@@ -198,29 +198,52 @@ h1 {
   }
 }
 
-
-  /* src/index.css or a dedicated CSS module */
   .custom-scrollbar::-webkit-scrollbar {
-    width: 5px; /* Adjust as needed */
+    width: 5px; 
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    background-color: rgb(34, 34, 34); /* Tailwind's gray-100 */
+    background-color: rgb(34, 34, 34);
     border-radius: 4px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #474747; /* Tailwind's gray-500 */
+    background-color: #474747; 
     border-radius: 4px;
   }
 
-  /* Optional: Hover state for the thumb */
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: #535353; /* Tailwind's gray-700 */
+    background-color: #535353;
     cursor: grab;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:active {
-    background-color: #737373; /* darker while dragging */
-    cursor: grabbing; /* 👈 shows grabbing cursor when clicked */
+    background-color: #737373;
+    cursor: grabbing;
+  }
+
+  .content {
+    background: #EDEDED;
+    border-radius: 1rem;
+    height: 100%;
+  }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      #191919 30%,
+      #252525 50%,
+      #191919 70%
+    );
+    background-size: 400%;
+    animation: shimmer 1.5s infinite linear;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 100% 100%;
+    }
+    100% {
+      background-position: 0 0;
+    }
   }

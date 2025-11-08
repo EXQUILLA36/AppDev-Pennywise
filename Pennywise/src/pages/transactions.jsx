@@ -62,19 +62,13 @@ export default function transactions() {
       stagger: 0.2,
       ease: "power4.inOut",
     });
-    // gsap.from(".dashboard-item", {
-    //   y: 50,
-    //   opacity: 0,
-    //   duration: 0.7,
-    //   stagger: 0.2,
-    //   ease: "power4.inOut",
-    // });
-    // gsap.from(".dashboard-item2", {
-    //   opacity: 0,
-    //   duration: 0.7,
-    //   stagger: 0.2,
-    //   ease: "power4.inOut",
-    // });
+    gsap.from(".dashboard-item", {
+      y: 50,
+      opacity: 0,
+      duration: 0.7,
+      stagger: 0.2,
+      ease: "power4.inOut",
+    });
   }, []);
   return (
     <div className="flex flex-col gap-10 p-5">
@@ -94,20 +88,9 @@ export default function transactions() {
             ExpenseSource={expenseSources}
           />
         ) : null}
-        {/* <button
-          onClick={() => setOpenModal(true)}
-          className="bg-orange-500 h-fit py-[0.8rem] px-[2vw] rounded-2xl montserrat-bold emboss hover:scale-103 hover:bg-orange-400 duration-300 cursor-pointer"
-        >
-          Add Transaction
-        </button> */}
       </section>
 
-      <section className="dashboard-item2 flex flex-col gap-3 w-full h-[37vw] p-[1vw] bg-[#191919] rounded-xl emboss">
-        <div className="flex flex-row justify-between items-center pb-3 border-b border-gray-700">
-          <form action="">
-            <input type="text" className="bg-white" />
-          </form>
-        </div>
+      <section className="flex flex-col gap-3 w-full h-[37vw] p-[1vw] bg-[#191919] rounded-xl emboss">
         <DataTable columns={columns} data={transactions} />
       </section>
 

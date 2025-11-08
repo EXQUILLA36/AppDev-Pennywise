@@ -12,7 +12,6 @@ import gsap from "gsap";
 import "./index.css";
 import App from "./App";
 import { ClerkProvider } from "@clerk/clerk-react";
-import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner"
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 

@@ -1,9 +1,11 @@
 "use client";
 
+import React, { useState } from "react";
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
 
 import {
@@ -15,15 +17,35 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 export function DataTable({ columns, data }) {
+  const [columnFilters, setColumnFilters] = useState([]);
+
   const table = useReactTable({
     data,
     columns,
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      columnFilters,
+    },
   });
 
   return (
-    <div className="overflow-y-auto custom-scrollbar rounded-md border">
+    <div className="overflow-y-auto custom-scrollbar p-2 rounded-md border">
+      <div className="flex items-center w-full pb-3 border-b border-white-30">
+        <Input
+          placeholder="Search Source Type..."
+          value={table.getColumn("source")?.getFilterValue() ?? ""}
+          onChange={(event) =>
+            table.getColumn("source")?.setFilterValue(event.target.value)
+          }
+          className="w-full"
+        />
+      </div>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
