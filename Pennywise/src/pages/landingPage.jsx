@@ -16,19 +16,19 @@ export default function LandingPage() {
   const navigate = useNavigate();
 
   useGSAP(() => {
-    gsap.from(".slide-right-stagger", {
-      x: -50,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.2,
-      ease: "power4.inOut",
-      scrollTrigger: {
-        trigger: ".slide-right-stagger",
-        start: "top 80%",
-        end: "bottom 30%",
-        toggleActions: "play reverse play reverse",
-      },
-    });
+    // gsap.from(".slide-right-stagger", {
+    //   x: -50,
+    //   opacity: 0,
+    //   duration: 1,
+    //   stagger: 0.2,
+    //   ease: "power4.inOut",
+    //   scrollTrigger: {
+    //     trigger: ".slide-right-stagger",
+    //     start: "top 80%",
+    //     end: "bottom 30%",
+    //     toggleActions: "play reverse play reverse",
+    //   },
+    // });
 
     gsap.from(".illustration", {
       y: 50,
