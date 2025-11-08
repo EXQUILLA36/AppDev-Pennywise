@@ -4,6 +4,7 @@ import { db } from "../firebase/firebase";
 import { ScrollTrigger, SplitText } from "gsap/all";
 import { useAccount } from "@/utils/account";
 import { useTransactions } from "@/hooks/transactionHook";
+import { useSource } from "@/hooks/sourceHook";
 import { useGSAP } from "@gsap/react";
 import { columns } from "@/components/modules/columns";
 import { DataTable } from "@/components/modules/data-table";
@@ -15,30 +16,32 @@ export default function transactions() {
   const modal = useRef(null);
   const [openModal, setOpenModal] = useState(false);
   const account = useAccount();
-  const [incomeSources, setIncomeSources] = useState([]);
-  const [expenseSources, setExpenseSources] = useState([]);
+  const [incomeSource, setIncomeSources] = useState([]);
+  const [expenseSource, setExpenseSources] = useState([]);
   const [transactions, setTransations] = useState([]);
+
+  // const { incomesources, expensesources } = useSource(account?.clerk);
+  // console.log("FROM HOOK SOURCE:", incomesources);
 
   useEffect(() => {
     try {
-      if (account) {
-        const userRef = doc(db, "users", account.clerkId);
+      const userRef = doc(db, "users", account.clerkId);
 
-        const unsubscribe = onSnapshot(userRef, (docSnap) => {
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            setTransations(data.transactions);
-            setExpenseSources(data.expenseSource || {});
-            setIncomeSources(data.incomeSource || []);
-            console.log("🔁 Firestore updated:", data);
-          } else {
-            console.warn("⚠️ User document does not exist yet!");
-          }
-        });
+      const unsubscribe = onSnapshot(userRef, (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setTransations(data.transactions);
+          setExpenseSources(data.expenseSource || {});
+          setIncomeSources(data.incomeSource || []);
+          console.log("🔁 Firestore updated:", data);
+          console.log("🔁 Expense updated:", data.expenseSource);
+        } else {
+          console.warn("⚠️ User document does not exist yet!");
+        }
+      });
 
-        // Cleanup when component unmounts or account changes
-        return () => unsubscribe();
-      }
+      // Cleanup when component unmounts or account changes
+      return () => unsubscribe();
     } catch (err) {
       console.error("❌ Error processing account:", err);
     }
@@ -53,6 +56,10 @@ export default function transactions() {
     }
     fetchUserData();
   }, [account]);
+
+  useEffect(() => {
+    console.log("✅ Updated expenseSource:", expenseSource);
+  }, [expenseSource]);
 
   useGSAP(() => {
     gsap.from(".dashboard-header", {
@@ -70,6 +77,7 @@ export default function transactions() {
       ease: "power4.inOut",
     });
   }, []);
+
   return (
     <div className="flex flex-col gap-10 p-5">
       <section className="w-full flex flex-row justify-between">
@@ -84,8 +92,8 @@ export default function transactions() {
         {account ? (
           <BalanceEditor
             ClerkId={account.clerkId}
-            IncomeSource={incomeSources}
-            ExpenseSource={expenseSources}
+            IncomeSource={incomeSource}
+            ExpenseSource={expenseSource}
           />
         ) : null}
       </section>

@@ -16,19 +16,19 @@ export default function LandingPage() {
   const navigate = useNavigate();
 
   useGSAP(() => {
-    // gsap.from(".slide-right-stagger", {
-    //   x: -50,
-    //   opacity: 0,
-    //   duration: 1,
-    //   stagger: 0.2,
-    //   ease: "power4.inOut",
-    //   scrollTrigger: {
-    //     trigger: ".slide-right-stagger",
-    //     start: "top 80%",
-    //     end: "bottom 30%",
-    //     toggleActions: "play reverse play reverse",
-    //   },
-    // });
+    gsap.from(".slide-right-stagger", {
+      x: -50,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: "power4.inOut",
+      scrollTrigger: {
+        trigger: ".slide-right-stagger",
+        start: "top 90%",
+        end: "bottom 30%",
+        toggleActions: "play reverse play reverse",
+      },
+    });
 
     gsap.from(".illustration", {
       y: 50,
@@ -84,6 +84,7 @@ export default function LandingPage() {
 
       {/* Feature Section */}
       <section className="feature-section flex flex-col items-center w-full h-[1000vw] z-10">
+
         <div className="overflow-hidden">
           <h1 className="feature-text text-white montserrat-bold typo-head leading-tight text-center">
             Everything You Need to{" "}
@@ -95,6 +96,7 @@ export default function LandingPage() {
             Powerful features designed to make financial management effortless
           </p>
         </div>
+
         <div className="flex flex-row justify-between w-full h-fit p-10">
           <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300">
             <div className="flex w-[25%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]">
@@ -150,7 +152,7 @@ export default function LandingPage() {
               </motion.p>
             </div>
           </div>
-          <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl emboss hover:scale-101 transition-all duration-300">
+          <div className="flex flex-col gap-5 leading-tight w-[24%] h-fit bg-[#191919] p-10 rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300">
             <div className="flex w-[25%] aspect-square justify-center items-center p-3 bg-[#191919] rounded-xl shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)]">
               <img
                 src="./images/icons/shield.svg"

@@ -237,7 +237,7 @@ export default function Dashboard() {
         </div>
         <div className="dashboard-item flex flex-col w-full h-fit p-[1.5vw] gap-3 bg-[#191919] rounded-xl emboss">
           <div className="flex flex-row justify-between items-center">
-            <span className="montserrat-bold typo-sub">Savings</span>
+            <span className="montserrat-bold typo-sub">Budget</span>
             <img src="./images/icons/dashboardIcons/trending-up.svg" alt="" />
           </div>
           <div className="dashboard-item flex flex-col">
@@ -246,7 +246,7 @@ export default function Dashboard() {
               {pageLoading ? (
                 <div className="shimmer flex w-full h-10 rounded-2xl"></div>
               ) : (
-                walletContent.total_savings
+                walletContent.total_budget
               )}
             </h1>
             <span className="text-amber-600">+12.5% from last month</span>
@@ -258,7 +258,7 @@ export default function Dashboard() {
         <section className="dashboard-item2 flex flex-col gap-3 w-full h-[25vw] p-[1vw] bg-[#191919] rounded-xl emboss">
           <h1>Recent Transactions</h1>
 
-          <div className={ pageLoading ? "shimmer rounded-xl flex flex-col gap-2 w-full h-[90vw] overflow-y-auto" : "flex flex-col gap-2 w-full h-[90vw] overflow-y-auto"}>
+          <div className={ pageLoading ? "shimmer rounded-xl flex flex-col gap-2 w-full h-[90vw] overflow-y-auto custom-scrollbar" : "flex flex-col gap-2 w-full h-[90vw] overflow-y-auto custom-scrollbar"}>
             {transactions
               .slice(-4)
               .reverse()

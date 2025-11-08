@@ -35,14 +35,14 @@ export default function BalanceEditor({
   IncomeSource,
   ExpenseSource,
 }) {
-  const [transactionType, setTransactionType] = useState(""); // Income/Expense
-  const [transactionSource, setTransactionSource] = useState(""); // specific source
-  const [amount, setAmount] = useState(""); // input value
+  const [transactionType, setTransactionType] = useState("");
+  const [transactionSource, setTransactionSource] = useState("");
+  const [amount, setAmount] = useState("");
   const [transactionDate, setTransactionDate] = useState(new Date());
 
   const handleSubmit = () => {
     if (!transactionType || !transactionSource || !amount) {
-      alert("Please fill all fields!");
+      toast.warning("Error recording transaction!");
       return;
     }
 
@@ -138,7 +138,7 @@ export default function BalanceEditor({
             />
           </div>
           <div className="w-[30%] flex flex-row gap-2 items-center justify-center">
-            <Select onValueChange={setTransactionType}>
+            <Select value={transactionType} onValueChange={setTransactionType}>
               <SelectTrigger className="w-[40%]">
                 <SelectValue placeholder="Transaction" />
               </SelectTrigger>

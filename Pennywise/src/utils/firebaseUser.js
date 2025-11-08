@@ -21,7 +21,7 @@ export async function addUserToFirestore(user) {
           total_balance: 0,
           total_income: 0,
           total_expenses: 0,
-          total_savings: 0,
+          total_budget: 0,
         }
       });
       console.log("✅ User added to Firestore:", user.username);
@@ -39,7 +39,7 @@ export async function addUserToFirestore(user) {
           total_balance: 0,
           total_income: 0,
           total_expenses: 0,
-          total_savings: 0,
+          total_budget: 0,
         }
       });
       console.log("🔄 User document updated with new fields:", user.username);
