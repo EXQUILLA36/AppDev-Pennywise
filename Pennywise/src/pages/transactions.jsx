@@ -13,15 +13,10 @@ import BalanceEditor from "@/components/modules/balanceEditor";
 import gsap from "gsap";
 
 export default function transactions() {
-  const modal = useRef(null);
-  const [openModal, setOpenModal] = useState(false);
   const account = useAccount();
   const [incomeSource, setIncomeSources] = useState([]);
   const [expenseSource, setExpenseSources] = useState([]);
   const [transactions, setTransations] = useState([]);
-
-  // const { incomesources, expensesources } = useSource(account?.clerk);
-  // console.log("FROM HOOK SOURCE:", incomesources);
 
   useEffect(() => {
     try {
@@ -72,7 +67,7 @@ export default function transactions() {
     gsap.from(".dashboard-item", {
       y: 50,
       opacity: 0,
-      duration: 0.7,
+      duration: 1.2,
       stagger: 0.2,
       ease: "power4.inOut",
     });
@@ -98,24 +93,9 @@ export default function transactions() {
         ) : null}
       </section>
 
-      <section className="flex flex-col gap-3 w-full h-[37vw] p-[1vw] bg-[#191919] rounded-xl emboss">
+      <section className="dashboard-item flex flex-col gap-3 w-full h-[37vw] p-[1vw] bg-[#191919] rounded-xl emboss">
         <DataTable columns={columns} data={transactions} />
       </section>
-
-      <dialog
-        ref={modal}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl backdrop:bg-black/50"
-      >
-        <div className="w-full h-full bg-white rounded-xl flex flex-col gap-4 items-center justify-center">
-          <h1 className="text-xl font-bold">Hi</h1>
-          <button
-            onClick={() => setOpenModal(false)}
-            className="bg-orange-500 py-2 px-5 text-white rounded-lg hover:bg-orange-400 duration-300"
-          >
-            Close
-          </button>
-        </div>
-      </dialog>
     </div>
   );
 }

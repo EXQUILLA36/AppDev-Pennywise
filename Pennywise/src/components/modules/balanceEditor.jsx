@@ -28,6 +28,17 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Wallet } from "lucide-react";
 
 export default function BalanceEditor({
@@ -38,7 +49,10 @@ export default function BalanceEditor({
   const [transactionType, setTransactionType] = useState("");
   const [transactionSource, setTransactionSource] = useState("");
   const [amount, setAmount] = useState("");
-  const [transactionDate, setTransactionDate] = useState(new Date());
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [pendingTransaction, setPendingTransaction] = useState(null);
+  const [pendingBudgetIndex, setPendingBudgetIndex] = useState(null);
 
   const handleSubmit = () => {
     if (!transactionType || !transactionSource || !amount) {
@@ -65,8 +79,6 @@ export default function BalanceEditor({
 
     console.log("Submitting transaction:", newTransaction);
 
-    // TODO: Save to Firestore or your state
-    // Example: append to userData.transactions array
     addTransactionToFirestore(ClerkId, newTransaction);
 
     setTransactionType("");
@@ -81,35 +93,116 @@ export default function BalanceEditor({
 
       if (!userSnap.exists()) throw new Error("User not found");
 
-      const wallet = userSnap.data().wallet || {
+      const userData = userSnap.data();
+
+      const wallet = userData.wallet || {
         total_balance: 0,
         total_income: 0,
         total_expenses: 0,
         total_savings: 0,
       };
+
+      const budgets = userData.budgets || [];
+
       const amount = Number(newTransaction.amount);
       const type = newTransaction.type;
+      const source = newTransaction.source;
       let updatedWallet = { ...wallet };
+
       if (type === "Income") {
         updatedWallet.total_balance += amount;
         updatedWallet.total_income += amount;
       } else if (type === "Expense") {
+        const budgetIndex = budgets.findIndex(
+          (b) => b.budgetSource === transactionSource
+        );
+        console.log("INDEX:", budgetIndex);
+
+        console.log("Expense Source:", transactionSource);
+        console.log(
+          "Budget Sources:",
+          budgets.map((b) => b.budgetSource)
+        );
+
+        if (budgetIndex !== -1) {
+          const allocated = budgets[budgetIndex].amountAllocated;
+          const used = budgets[budgetIndex].amountUsed;
+          const remaining = allocated - used;
+
+          console.log("Amount:", amount);
+          console.log("Remaining:", remaining);
+
+          if (amount > remaining) {
+            console.log("You are spending way more than your allotted budget");
+            toast.warning(
+              `Not enough budget for ${source}. Remaining: ₱${remaining.toLocaleString()}`
+            );
+            setPendingTransaction(newTransaction);
+            setPendingBudgetIndex(budgetIndex);
+            setIsOpen(true); // open AlertDialog
+            return; // stop automatic update
+          }
+          console.log("OKAy");
+          budgets[budgetIndex] = {
+            ...budgets[budgetIndex],
+            amountUsed: used + amount,
+          };
+        }
         updatedWallet.total_balance -= amount;
         updatedWallet.total_expenses += amount;
       }
-
       await updateDoc(userRef, {
         wallet: updatedWallet,
-        transactions: arrayUnion(newTransaction), // adds to the array
+        budgets: budgets,
+        transactions: arrayUnion(newTransaction),
       });
-
-      console.log("✅ Transaction added successfully:", newTransaction);
-      toast.success("Succesfully recorded transaction!");
     } catch (err) {
-      console.error("❌ Error adding transaction:", err);
-      toast.error("Error recording transaction!");
+      console.error(err);
     }
   }
+
+  const handleConfirmOverspend = async () => {
+    if (!pendingTransaction || pendingBudgetIndex === null) return;
+
+    try {
+      const userRef = doc(db, "users", ClerkId);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) throw new Error("User not found");
+
+      const userData = userSnap.data();
+      const budgets = userData.budgets || [];
+      const wallet = { ...userData.wallet };
+
+      const amount = Number(pendingTransaction.amount);
+
+      // Update the budget
+      budgets[pendingBudgetIndex] = {
+        ...budgets[pendingBudgetIndex],
+        amountUsed: (budgets[pendingBudgetIndex].amountUsed || 0) + amount,
+      };
+
+      // Update wallet
+      wallet.total_balance -= amount;
+      wallet.total_expenses += amount;
+
+      // Push transaction
+      await updateDoc(userRef, {
+        wallet: wallet,
+        budgets: budgets,
+        transactions: arrayUnion(pendingTransaction),
+      });
+
+      toast.success("Transaction added (Your wallet's in shambles 😨)");
+    } catch (err) {
+      console.error(err);
+      toast.error("Error adding transaction!");
+    } finally {
+      setIsOpen(false);
+      setPendingTransaction(null);
+      setPendingBudgetIndex(null);
+    }
+  };
 
   return (
     <div>
@@ -133,7 +226,13 @@ export default function BalanceEditor({
               type="text"
               placeholder="Php"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                // Only allow digits
+                if (/^\d*\.?\d*$/.test(value)) {
+                  setAmount(value);
+                }
+              }}
               className="text-center p-[1vw] typo-subheader poppins-medium border-b border-white/10 rounded-md focus:border-b focus:outline-none focus:ring-0"
             />
           </div>
@@ -193,6 +292,35 @@ export default function BalanceEditor({
             </DrawerClose>
           </DrawerFooter>
         </DrawerContent>
+        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Whoa! Slow Down!</AlertDialogTitle>
+              <AlertDialogDescription>
+                Take a look at your expenses and prioritize what truly matters.
+                Small adjustments can keep you within budget.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel
+                className="cursor-pointer"
+                onClick={() => {
+                  setIsOpen(false);
+                  setPendingTransaction(null);
+                  setPendingBudgetIndex(null);
+                }}
+              >
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-red-500 hover:bg-red-600 cursor-pointer"
+                onClick={handleConfirmOverspend}
+              >
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </Drawer>
     </div>
   );

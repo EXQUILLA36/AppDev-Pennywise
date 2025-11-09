@@ -60,11 +60,11 @@ export default function App() {
     <div className="flex flex-col">
       <Router>
         <div className="flex flex-row px-6 py-12 items-center justify-between gap-5 w-full h-[3vw] rounded-2xl montserrat-medium z-50">
-          <div className="logo-section flex items-center bg-[#191919] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] rounded-2xl py-1 pl-2 pr-12">
+          <div className="logo-section flex items-center bg-[#191919] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] rounded-lg gap-2 py-2 pl-2 pr-12">
             <img
               src="./images/icons/logo.png"
               alt="logo"
-              className="w-[2vw] aspect-square"
+              className="w-[1.5vw] aspect-square"
             />
             <h2 className="logo-text typo-par">Pennywise</h2>
           </div>

@@ -13,8 +13,8 @@ import BalanceEditor from "@/components/modules/balanceEditor";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import { useTransactions } from "@/hooks/transactionHook";
-
 import gsap from "gsap";
+import { useBudgets } from "@/hooks/budgetsHooks";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -31,20 +31,19 @@ export default function Dashboard() {
   const { transactions, loading: transactionsLoading } = useTransactions(
     userData?.clerk_id
   );
+  const { budgets, totalAllocated, totalUsed, loading } = useBudgets(
+    account?.clerkId
+  );
 
   //* Add user to Firestore on account change
   useEffect(() => {
     async function processAccount() {
       try {
         if (account) {
-          console.log("🟢 Adding user to Firestore:", account);
           const status = await addUserToFirestore(account);
           if (status === "accountProccessed") {
-            console.log("🟢 Fetching user data from Firestore");
             fetchUserData();
           }
-        } else {
-          console.log("🔴 No account yet");
         }
 
         const userRef = doc(db, "users", account.clerkId);
@@ -56,16 +55,11 @@ export default function Dashboard() {
             setWalletContent(data.wallet);
             setIncomeSources(data.incomeSource || []);
             setExpenseSources(data.expenseSource || []);
-            console.log("🔁 Firestore updated:", data);
-          } else {
-            console.warn("⚠️ User document does not exist yet!");
           }
         });
-
-        // Cleanup when component unmounts or account changes
         return () => unsubscribe();
       } catch (err) {
-        console.error("❌ Error processing account:", err);
+        console.error("Error processing account:", err);
       }
     }
 
@@ -75,7 +69,6 @@ export default function Dashboard() {
       if (account) {
         const data = await getUserFromFirestore(account.clerkId);
         setUserData(data);
-        console.log(data);
         setWalletContent(data.wallet);
       }
       setPageLoading(false);
@@ -84,53 +77,53 @@ export default function Dashboard() {
 
   console.log("LOADING STATE:", pageLoading);
 
-  useEffect(() => {
-    if (!userData || !walletContent?.total_balance) return;
+  // useEffect(() => {
+  //   if (!userData || !walletContent?.total_balance) return;
 
-    const today = new Date().toISOString().split("T")[0]; // e.g. "2025-11-07"
-    const yesterday = new Date(Date.now() - 86400000)
-      .toISOString()
-      .split("T")[0]; // e.g. "2025-11-06"
+  //   const today = new Date().toISOString().split("T")[0];
+  //   const yesterday = new Date(Date.now() - 86400000)
+  //     .toISOString()
+  //     .split("T")[0];
 
-    // If there's no balanceHistory, create an empty one
-    const history = userData.balanceHistory || {};
+  //   // If there's no balanceHistory, create an empty one
+  //   const history = userData.balanceHistory || {};
 
-    // Only store today's balance once per day
-    if (userData.lastUpdated !== today) {
-      const userRef = doc(db, "users", account.clerkId);
+  //   // Only store today's balance once per day
+  //   if (userData.lastUpdated !== today) {
+  //     const userRef = doc(db, "users", account.clerkId);
 
-      updateDoc(userRef, {
-        [`balanceHistory.${today}`]: walletContent.total_balance,
-        lastUpdated: today,
-      })
-        .then(() =>
-          console.log(
-            `✅ Stored today's balance: ${walletContent.total_balance}`
-          )
-        )
-        .catch((err) =>
-          console.error("❌ Failed to update balanceHistory:", err)
-        );
-    }
+  //     updateDoc(userRef, {
+  //       [`balanceHistory.${today}`]: walletContent.total_balance,
+  //       lastUpdated: today,
+  //     })
+  //       .then(() =>
+  //         console.log(
+  //           `✅ Stored today's balance: ${walletContent.total_balance}`
+  //         )
+  //       )
+  //       .catch((err) =>
+  //         console.error("❌ Failed to update balanceHistory:", err)
+  //       );
+  //   }
 
-    // Now calculate gain/loss % from yesterday to today
-    const yesterdayBalance = history[yesterday] || walletContent.total_balance;
-    const todayBalance = walletContent.total_balance;
-    const percentChange =
-      yesterdayBalance > 0
-        ? ((todayBalance - yesterdayBalance) / yesterdayBalance) * 100
-        : 0;
+  //   // Now calculate gain/loss % from yesterday to today
+  //   const yesterdayBalance = history[yesterday] || walletContent.total_balance;
+  //   const todayBalance = walletContent.total_balance;
+  //   const percentChange =
+  //     yesterdayBalance > 0
+  //       ? ((todayBalance - yesterdayBalance) / yesterdayBalance) * 100
+  //       : 0;
 
-    setDailyChange(percentChange.toFixed(2)); // ← use a state to display later
-  }, [userData, walletContent]);
+  //   setDailyChange(percentChange.toFixed(2)); // ← use a state to display later
+  // }, [userData, walletContent]);
 
-  console.log("PERCENTAGE CHANGE:".percentChange);
+  // console.log("PERCENTAGE CHANGE:".percentChange);
 
-  useEffect(() => {
-    if (!transactionsLoading) {
-      console.log("Transactions fetched:", transactions);
-    }
-  }, [transactions, transactionsLoading]);
+  // useEffect(() => {
+  //   if (!transactionsLoading) {
+  //     console.log("Transactions fetched:", transactions);
+  //   }
+  // }, [transactions, transactionsLoading]);
 
   useGSAP(() => {
     gsap.from(".dashboard-header", {
@@ -144,7 +137,7 @@ export default function Dashboard() {
       y: 50,
       opacity: 0,
       duration: 1.2,
-      stagger: 0.2,
+      stagger: 0.1,
       ease: "power4.inOut",
     });
     gsap.from(".dashboard-item2", {
@@ -174,7 +167,11 @@ export default function Dashboard() {
             IncomeSource={incomeSources}
             ExpenseSource={expenseSources}
           />
-        ) : <button className="shimmer h-fit py-[0.8rem] px-[2vw] rounded-2xl montserrat-bold emboss hover:scale-103 hover:bg-orange-400 duration-300 cursor-pointer">Loading Datas</button>}
+        ) : (
+          <button className="shimmer h-fit py-[0.8rem] px-[2vw] rounded-2xl montserrat-bold emboss hover:scale-103 hover:bg-orange-400 duration-300 cursor-pointer">
+            Loading Datas
+          </button>
+        )}
       </section>
 
       <section className="flex flex-row gap-[1vw] justify-between">
@@ -246,10 +243,16 @@ export default function Dashboard() {
               {pageLoading ? (
                 <div className="shimmer flex w-full h-10 rounded-2xl"></div>
               ) : (
-                walletContent.total_budget
+                totalAllocated
               )}
             </h1>
-            <span className="text-amber-600">+12.5% from last month</span>
+            <span className="text-amber-600">
+              {totalAllocated > 0
+                ? `${((totalUsed / totalAllocated) * 100).toFixed(
+                    1
+                  )}% of total budget has been used`
+                : "No budget allocated yet"}
+            </span>
           </div>
         </div>
       </section>
@@ -258,7 +261,13 @@ export default function Dashboard() {
         <section className="dashboard-item2 flex flex-col gap-3 w-full h-[25vw] p-[1vw] bg-[#191919] rounded-xl emboss">
           <h1>Recent Transactions</h1>
 
-          <div className={ pageLoading ? "shimmer rounded-xl flex flex-col gap-2 w-full h-[90vw] overflow-y-auto custom-scrollbar" : "flex flex-col gap-2 w-full h-[90vw] overflow-y-auto custom-scrollbar"}>
+          <div
+            className={
+              pageLoading
+                ? "shimmer rounded-xl flex flex-col gap-2 w-full h-[90vw] overflow-y-auto custom-scrollbar"
+                : "flex flex-col gap-2 w-full h-[90vw] overflow-y-auto custom-scrollbar"
+            }
+          >
             {transactions
               .slice(-4)
               .reverse()
@@ -304,16 +313,55 @@ export default function Dashboard() {
         <section className="dashboard-item2 flex flex-col gap-3 w-full h-[25vw] p-[1vw] bg-[#191919] rounded-xl emboss">
           <h1>Budget Overview</h1>
           <div className="flex flex-col w-full h-[90vw] overflow-y-auto">
-            <div className="flex flex-row justify-between montserrat-bold w-full h-fit p-2">
-              <div className="flex flex-row items-center justify-between w-full leading-tight">
-                <h2 className="typo-sub">Grocery</h2>
-                <span className="montserrat-medium">$400 / $600</span>
-              </div>
-            </div>
-            <div className="w-full h-[0.5rem] bg-orange-400 rounded-full"></div>
+            {budgets
+              .slice()
+              .sort((a, b) => b.amountUsed - a.amountUsed)
+              .slice(0, 3)
+              .map((budget, index) => {
+                const percentage =
+                  (budget.amountUsed / budget.amountAllocated) * 100;
+                const barColor = `hsl(${
+                  35 - Math.min(percentage, 100) * 0.35
+                }, 90%, 50%)`;
+
+                return (
+                  <div
+                    key={index}
+                    className="flex flex-col gap-1 w-full h-fit p-2 bg-[#191919] rounded-lg"
+                  >
+                    {/* Header */}
+                    <div className="flex flex-row items-center justify-between w-full leading-tight">
+                      <h2 className="typo-sub">{budget.budgetSource}</h2>
+                      <span className="montserrat-medium text-sm text-gray-300">
+                        ₱{budget.amountUsed.toLocaleString()} / ₱
+                        {budget.amountAllocated.toLocaleString()}
+                      </span>
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="w-full h-2 bg-[#282828] rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-500"
+                        style={{
+                          width: `${Math.min(percentage, 100)}%`,
+                          backgroundColor: barColor,
+                        }}
+                      ></div>
+                    </div>
+
+                    {/* Percentage text */}
+                    <span className="text-sm text-orange-400">
+                      {percentage.toFixed(1)}% of budget used
+                    </span>
+                  </div>
+                );
+              })}
           </div>
-          <button className="bg-[#191919] p-[0.5vw] rounded-sm emboss">
-            View Transactions
+          <button
+            onClick={() => navigate("/budget")}
+            className="bg-[#191919] p-[0.5vw] rounded-sm shadow-[-4px_-4px_10px_rgba(255,255,255,0.1),5px_4px_15px_rgba(0,0,0,7)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-102 transition-all duration-500 cursor-pointer"
+          >
+            View All Budgets
           </button>
         </section>
       </section>

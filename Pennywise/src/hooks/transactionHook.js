@@ -7,17 +7,14 @@ export function useTransactions(clerkId) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!clerkId) return; // skips if clerkId not ready
-    console.log("TRANSACTION HOOK");
+    if (!clerkId) return;
 
     const userRef = doc(db, "users", clerkId);
-    console.log("Setting up Firestore snapshot for:", clerkId);
 
     const unsubscribe = onSnapshot(userRef, (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         setTransactions(data.transactions || []);
-        console.log("🟢 Transactions fetched:", data.transactions || []);
       } else {
         setTransactions([]);
         console.log("⚠️ No transactions found");
