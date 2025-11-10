@@ -26,8 +26,11 @@ export default function Dashboard() {
   const [walletContent, setWalletContent] = useState({});
   const [incomeSources, setIncomeSources] = useState([]);
   const [expenseSources, setExpenseSources] = useState([]);
-  const [dailyChange, setDailyChange] = useState(0);
+  const [growth, setGrowth] = useState(0);
+  const [incomeExpenseRatio, setIncomeExpenseRatio] = useState(0);
+  const [balanceRatio, setBalanceRatio] = useState(0);
 
+  // *LOGS
   const { transactions, loading: transactionsLoading } = useTransactions(
     userData?.clerk_id
   );
@@ -48,15 +51,58 @@ export default function Dashboard() {
 
         const userRef = doc(db, "users", account.clerkId);
 
-        const unsubscribe = onSnapshot(userRef, (docSnap) => {
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            setUserData(data);
-            setWalletContent(data.wallet);
-            setIncomeSources(data.incomeSource || []);
-            setExpenseSources(data.expenseSource || []);
+        const unsubscribe = onSnapshot(userRef, async (docSnap) => {
+          if (!docSnap.exists()) return;
+
+          const data = docSnap.data();
+          setUserData(data);
+          setWalletContent(data.wallet);
+          setIncomeSources(data.incomeSource || []);
+          setExpenseSources(data.expenseSource || []);
+
+          // --- 30-DAY CHECK ---
+          const now = new Date();
+          const lastUpdated = data.previousBalance?.lastUpdated
+            ? new Date(data.previousBalance.lastUpdated)
+            : null;
+          const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+          const needsUpdate = !lastUpdated || now - lastUpdated >= thirtyDays;
+
+          if (needsUpdate) {
+            try {
+              await updateDoc(userRef, {
+                "previousBalance.amount": data.wallet.total_balance,
+                "previousBalance.lastUpdated": now.toISOString(),
+              });
+              console.log("📆 Previous balance snapshot updated.");
+            } catch (err) {
+              console.error("Failed to update previous balance:", err);
+            }
           }
+
+          // --- GROWTH CALCULATION ---
+          const current = data.wallet.total_balance;
+          const previous = data.previousBalance?.amount || 0;
+
+          let perc = 0;
+          perc = ((current - previous) / previous / 30) * 100;
+
+          setGrowth(perc);
+
+          const spendingToEarningRatio =
+            data.wallet.total_income > 0
+              ? (data.wallet.total_expenses / data.wallet.total_income) * 100
+              : 0;
+          const balanceRatio =
+            data.wallet.total_income > 0
+              ? (data.wallet.total_balance / data.wallet.total_income) * 100
+              : 0;
+
+          setIncomeExpenseRatio(spendingToEarningRatio);
+          setBalanceRatio(balanceRatio);
+          setPageLoading(false);
         });
+
         return () => unsubscribe();
       } catch (err) {
         console.error("Error processing account:", err);
@@ -76,54 +122,6 @@ export default function Dashboard() {
   }, [account]);
 
   console.log("LOADING STATE:", pageLoading);
-
-  // useEffect(() => {
-  //   if (!userData || !walletContent?.total_balance) return;
-
-  //   const today = new Date().toISOString().split("T")[0];
-  //   const yesterday = new Date(Date.now() - 86400000)
-  //     .toISOString()
-  //     .split("T")[0];
-
-  //   // If there's no balanceHistory, create an empty one
-  //   const history = userData.balanceHistory || {};
-
-  //   // Only store today's balance once per day
-  //   if (userData.lastUpdated !== today) {
-  //     const userRef = doc(db, "users", account.clerkId);
-
-  //     updateDoc(userRef, {
-  //       [`balanceHistory.${today}`]: walletContent.total_balance,
-  //       lastUpdated: today,
-  //     })
-  //       .then(() =>
-  //         console.log(
-  //           `✅ Stored today's balance: ${walletContent.total_balance}`
-  //         )
-  //       )
-  //       .catch((err) =>
-  //         console.error("❌ Failed to update balanceHistory:", err)
-  //       );
-  //   }
-
-  //   // Now calculate gain/loss % from yesterday to today
-  //   const yesterdayBalance = history[yesterday] || walletContent.total_balance;
-  //   const todayBalance = walletContent.total_balance;
-  //   const percentChange =
-  //     yesterdayBalance > 0
-  //       ? ((todayBalance - yesterdayBalance) / yesterdayBalance) * 100
-  //       : 0;
-
-  //   setDailyChange(percentChange.toFixed(2)); // ← use a state to display later
-  // }, [userData, walletContent]);
-
-  // console.log("PERCENTAGE CHANGE:".percentChange);
-
-  // useEffect(() => {
-  //   if (!transactionsLoading) {
-  //     console.log("Transactions fetched:", transactions);
-  //   }
-  // }, [transactions, transactionsLoading]);
 
   useGSAP(() => {
     gsap.from(".dashboard-header", {
@@ -189,7 +187,10 @@ export default function Dashboard() {
                 walletContent.total_balance
               )}
             </h1>
-            <span className="text-amber-600">+12.5% from last month</span>
+            <span className={growth >= 0 ? "text-orange-400" : "text-red-500"}>
+              {growth >= 0 ? "+" : ""}
+              {growth.toFixed(2)}% since last month
+            </span>
           </div>
         </div>
         <div className="dashboard-item flex flex-col w-full h-fit p-[1.5vw] gap-3 bg-[#191919] rounded-xl emboss">
@@ -209,7 +210,13 @@ export default function Dashboard() {
                 walletContent.total_income
               )}
             </h1>
-            <span className="text-amber-600">+12.5% from last month</span>
+            <span
+              className={`text-lg ${
+                incomeExpenseRatio >= 100 ? "text-green-400" : "text-red-500"
+              }`}
+            >
+              {incomeExpenseRatio.toFixed(2)}%
+            </span>
           </div>
         </div>
         <div className="dashboard-item flex flex-col w-full h-fit p-[1.5vw] gap-3 bg-[#191919] rounded-xl emboss">
@@ -229,7 +236,17 @@ export default function Dashboard() {
                 walletContent.total_expenses
               )}
             </h1>
-            <span className="text-amber-600">+12.5% from last month</span>
+            <span
+              className={
+                incomeExpenseRatio > 100
+                  ? "text-red-500"
+                  : incomeExpenseRatio > 80
+                  ? "text-orange-400"
+                  : "text-green-400"
+              }
+            >
+              {incomeExpenseRatio.toFixed(2)}% of your income spent
+            </span>
           </div>
         </div>
         <div className="dashboard-item flex flex-col w-full h-fit p-[1.5vw] gap-3 bg-[#191919] rounded-xl emboss">

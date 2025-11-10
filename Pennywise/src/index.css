@@ -112,6 +112,10 @@
   @apply text-[clamp(0.5rem,1vw,2rem)]
 }
 
+.typo-link {
+  @apply text-[clamp(0.4rem,0.8vw,1.8rem)]
+}
+
 h1 {
   font-size: clamp(2rem, 1.8vw, 4rem);
   font-weight: 500;
@@ -247,3 +251,5 @@ h1 {
       background-position: 0 0;
     }
   }
+
+  

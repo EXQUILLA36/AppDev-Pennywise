@@ -13,11 +13,7 @@ export default function BackgroundCircle() {
       {
         opacity: 1,
         y: 0,
-        stagger: {
-          amount: 0.5,
-          ease: "circ.inOut",
-          from: "end",
-        },
+        stagger: 0.3  
       }
     );
 
@@ -38,9 +34,9 @@ export default function BackgroundCircle() {
 
   return (
     <div>
-      <div className="pointer-events-none absolute inset-0 overflow-hidden h-[90vw]">
-        <div className="slide-up-stagger absolute flex items-center justify-center top-[5vw] -right-[25vw] w-[90vw] aspect-square bg-[#1D1D1D] rounded-full z-0">
-          <div className="slide-up-stagger flex items-center justify-center w-[70vw] aspect-square bg-[#171717] rounded-full z-0">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden h-[100vw] ">
+        <div className="slide-up-stagger absolute flex items-center justify-center top-[5vw] -right-[25vw] w-[90vw] aspect-square bg-[#282828] rounded-full z-0">
+          <div className="slide-up-stagger flex items-center justify-center w-[70vw] aspect-square bg-[#1e1e1e] rounded-full z-0">
             <div className="slide-up-stagger w-[40vw] aspect-square bg-[#151515] rounded-full z-0"></div>
           </div>
         </div>

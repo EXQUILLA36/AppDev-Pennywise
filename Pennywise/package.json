@@ -21,6 +21,8 @@
     "@radix-ui/react-tabs": "^1.1.13",
     "@tailwindcss/vite": "^4.1.17",
     "@tanstack/react-table": "^8.21.3",
+    "@tsparticles/all": "^3.9.1",
+    "@tsparticles/react": "^3.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
@@ -35,10 +37,12 @@
     "react-dom": "^19.1.1",
     "react-responsive": "^10.0.1",
     "react-router-dom": "^7.9.4",
+    "react-tsparticles": "^2.12.2",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.17",
     "three": "^0.180.0",
+    "tsparticles": "^2.12.0",
     "vaul": "^1.1.2"
   },
   "devDependencies": {
