@@ -15,6 +15,13 @@ import { toast } from "sonner";
 import { useTransactions } from "@/hooks/transactionHook";
 import gsap from "gsap";
 import { useBudgets } from "@/hooks/budgetsHooks";
+import {
+  SignedIn,
+  SignedOut,
+  SignIn,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
 
 export default function Dashboard() {
   const navigate = useNavigate();

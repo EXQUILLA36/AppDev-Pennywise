@@ -21,6 +21,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
 import { useAccount } from "./utils/account";
+import EmptyPage from "./pages/emptyPage";
 import {
   SignedIn,
   SignedOut,
@@ -86,55 +87,97 @@ export default function App() {
               >
                 Home
               </NavLink>
+              <NavLink
+                to="/dashboard/userNotFound"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Dashboard
+              </NavLink>
+              <NavLink
+                to="/transactions/userNotFound"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Transactions
+              </NavLink>
+              <NavLink
+                to="/budget/userNotFound"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Budget
+              </NavLink>
+              <NavLink
+                to="/marketplace/userNotFound"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Marketplace
+              </NavLink>
             </SignedOut>
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
-                  : "text-white typo-par hover:text-red-400 transition-all"
-              }
-            >
-              Dashboard
-            </NavLink>
-            <NavLink
-              to="/transactions"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
-                  : "text-white typo-par hover:text-red-400 transition-all"
-              }
-            >
-              Transactions
-            </NavLink>
-            <NavLink
-              to="/budget"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
-                  : "text-white typo-par hover:text-red-400 transition-all"
-              }
-            >
-              Budget
-            </NavLink>
-            <NavLink
-              to="/marketplace"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
-                  : "text-white typo-par hover:text-red-400 transition-all"
-              }
-            >
-              Marketplace
-            </NavLink>
-            <UserButton
-              appearance={{
-                elements: {
-                  userButtonAvatarBox:
-                    "!w-[2.5vw] !h-[2.5vw] !border-[2px] !border-red-500/60",
-                },
-              }}
-            ></UserButton>
+            <SignedIn>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Dashboard
+              </NavLink>
+              <NavLink
+                to="/transactions"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Transactions
+              </NavLink>
+              <NavLink
+                to="/budget"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Budget
+              </NavLink>
+              <NavLink
+                to="/marketplace"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-400 typo-par font-semibold border-b-2 border-red-400 pb-1 transition-all"
+                    : "text-white typo-par hover:text-red-400 transition-all"
+                }
+              >
+                Marketplace
+              </NavLink>
+              <UserButton
+                appearance={{
+                  elements: {
+                    userButtonAvatarBox:
+                      "!w-[2.5vw] !h-[2.5vw] !border-[2px] !border-red-500/60",
+                  },
+                }}
+              ></UserButton>
+            </SignedIn>
           </div>
         </div>
 
@@ -149,6 +192,10 @@ export default function App() {
           <Route path="/budget" element={<Budget />} />
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/marketplace" element={<Marketplace />} />
+          <Route path="/dashboard/userNotFound" element={<EmptyPage />} />
+          <Route path="/transactions/userNotFound" element={<EmptyPage />} />
+          <Route path="/budget/userNotFound" element={<EmptyPage />} />
+          <Route path="/marketplace/userNotFound" element={<EmptyPage />} />
         </Routes>
       </Router>
     </div>
