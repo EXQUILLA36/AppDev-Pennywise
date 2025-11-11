@@ -24,7 +24,7 @@ export async function addUserToFirestore(user) {
           total_budget: 0,
         },
         previousBalance: {
-          amount: 0,
+          amount: 10000,
           lastUpdated: null,
         },
       });
