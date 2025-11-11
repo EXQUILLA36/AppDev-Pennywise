@@ -218,12 +218,12 @@ export default function BalanceEditor({
   return (
     <div>
       <Drawer>
-        <DrawerTrigger className="bg-orange-500 h-fit py-[0.8rem] px-[2vw] rounded-2xl montserrat-bold emboss hover:scale-103 hover:bg-orange-400 duration-300 cursor-pointer">
+        <DrawerTrigger className="bg-orange-500 h-fit py-[0.8rem] px-[2vw] rounded-2xl montserrat-bold emboss hover:scale-103 text-white hover:bg-orange-400 duration-300 cursor-pointer">
           Manage Balance
         </DrawerTrigger>
         <DrawerContent
           className={
-            "bg-[#191919] border border-white/10 rounded-2xl shadow-lg shadow-black/30 flex flex-col gap-5 items-center justify-center p-[1vw]"
+            "bg-[#191919] border text-white border-white/10 rounded-2xl shadow-lg shadow-black/30 flex flex-col gap-5 items-center justify-center p-[1vw]"
           }
         >
           <DrawerHeader>
@@ -276,7 +276,7 @@ export default function BalanceEditor({
               </SelectContent>
             </Select>
           </div>
-          <DrawerFooter className={"w-[25%]"}>
+          <DrawerFooter className={"w-[25%] text-white"}>
             <DrawerClose
               className={"w-full flex flex-row gap-2 justify-center p-0"}
             >

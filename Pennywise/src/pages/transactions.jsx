@@ -80,7 +80,7 @@ export default function transactions() {
           <h1 className="dashboard-header montserrat-bold text-white">
             Transactions
           </h1>
-          <h2 className="dashboard-header">
+          <h2 className="dashboard-header text-white">
             Track and manage all you financial transactions
           </h2>
         </section>
@@ -93,7 +93,7 @@ export default function transactions() {
         ) : null}
       </section>
 
-      <section className="dashboard-item flex flex-col gap-3 w-full h-[37vw] p-[1vw] bg-[#191919] rounded-xl emboss">
+      <section className="dashboard-item flex flex-col gap-3 w-full h-[37vw] text-white p-[1vw] bg-[#191919] rounded-xl emboss">
         <DataTable columns={columns} data={transactions} />
       </section>
     </div>

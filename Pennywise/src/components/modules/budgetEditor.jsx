@@ -225,13 +225,13 @@ export default function BudgetEditor({ ClerkId, IncomeSource, ExpenseSource }) {
     <div>
       <Sheet>
         {/* WINDOW BUTTON */}
-        <SheetTrigger className="bg-red-500 h-fit py-[0.8rem] px-[2vw] rounded-2xl montserrat-bold emboss hover:scale-103 hover:bg-red-600 duration-300 cursor-pointer">
+        <SheetTrigger className="bg-red-500 text-white h-fit py-[0.8rem] px-[2vw] rounded-2xl montserrat-bold emboss hover:scale-103 hover:bg-red-600 duration-300 cursor-pointer">
           Budget & Sources
         </SheetTrigger>
         {/* CONTENT */}
         <SheetContent
           side="right"
-          className="bg-[#191919] border-l border-white/30 p-2"
+          className="bg-[#191919] border-l text-white border-white/30 p-2"
         >
           {/* NEW INCOME / EXPENSE SOURCE  */}
           <SheetHeader>

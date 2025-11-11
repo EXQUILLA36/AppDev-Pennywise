@@ -173,7 +173,7 @@ export default function LandingPage() {
           <div className="slide-right-stagger flex flex-row gap-5 mt-5">
             <Link
               to="/login"
-              className="typo-par poppins-medium rounded-xl bg-red-900 px-[3vw] py-[1vw] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:scale-102 duration-300 cursor-pointer"
+              className="typo-par poppins-medium rounded-xl text-white bg-red-900 px-[3vw] py-[1vw] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:scale-102 duration-300 cursor-pointer"
             >
               Get Started
             </Link>
@@ -183,7 +183,7 @@ export default function LandingPage() {
                 e.preventDefault();
                 setScrollPage("about");
               }}
-              className="typo-par poppins-medium rounded-xl bg-[#191919] border-2 px-[2vw] py-[1vw] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:scale-102 duration-300 cursor-pointer"
+              className="typo-par poppins-medium rounded-xl text-white bg-[#191919] border-2 px-[2vw] py-[1vw] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:scale-102 duration-300 cursor-pointer"
             >
               Learn More
             </a>
@@ -348,23 +348,23 @@ export default function LandingPage() {
 
         <div className="w-full flex flex-col gap-[1.3vw] items-center">
           <div className="howto-card flex flex-col w-[50%] h-fit bg-[#191919] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300 rounded-xl p-[2vw]">
-            <h2 className="typo-subheader montserrat-bold">
+            <h2 className="typo-subheader text-white montserrat-bold">
               Login / Register an Account
             </h2>
-            <span className="typo-par poppins-light">
+            <span className="typo-par text-gray-300 poppins-light">
               Link your accounts securely with high-level encryption. We support
               over 10,000 financial institutions worldwide.
             </span>
           </div>
           <div className="howto-card-reverse flex flex-col w-[50%] h-fit bg-[#191919] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300 rounded-xl p-[2vw]">
-            <h2 className="typo-subheader montserrat-bold">Set Your Goals</h2>
-            <span className="typo-par poppins-light">
+            <h2 className="typo-subheader text-white montserrat-bold">Set Your Goals</h2>
+            <span className="typo-par text-gray-300 poppins-light">
               Easily budget and set your financial goals with our tools.
             </span>
           </div>
           <div className="howto-card  flex flex-col w-[50%] h-fit bg-[#191919] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300 rounded-xl p-[2vw]">
-            <h2 className="typo-subheader montserrat-bold">Track & Optimize</h2>
-            <span className="typo-par poppins-light">
+            <h2 className="typo-subheader text-white montserrat-bold">Track & Optimize</h2>
+            <span className="typo-par text-gray-300 poppins-light">
               Watch your money in real-time. Get recommendations and
               oppurtunities to maximize your savings and reach goals faster.
             </span>
@@ -375,7 +375,7 @@ export default function LandingPage() {
       <section className="w-[80%] h-fit py-[2vw] flex flex-col items-center gap-[2vw] bg-[#191919] rounded-2xl emboss z-10">
         <div className="w-full flex flex-col leading-tight">
           {" "}
-          <h1 className="leading-tight text-center montserrat-bold typo-head">
+          <h1 className="leading-tight text-white text-center montserrat-bold typo-head">
             Ready to Transform <br />
             <span className="text-orange-500">Your Finance?</span>
           </h1>
@@ -388,7 +388,7 @@ export default function LandingPage() {
         <div className="flex flex-row gap-5 mt-5">
           <Link
             to="/login"
-            className="typo-par poppins-medium rounded-lg bg-red-900 px-[3vw] py-[0.5vw] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:scale-102 duration-300 cursor-pointer"
+            className="typo-par poppins-medium text-white rounded-lg bg-red-900 px-[3vw] py-[0.5vw] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:scale-102 duration-300 cursor-pointer"
           >
             Get Started
           </Link>

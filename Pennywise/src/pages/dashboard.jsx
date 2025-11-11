@@ -160,7 +160,7 @@ export default function Dashboard() {
           <h1 className="dashboard-header montserrat-bold text-white">
             Dashboard
           </h1>
-          <h2 className="dashboard-header">
+          <h2 className="dashboard-header text-white">
             {userData
               ? `Welcome ${userData.full_name}! Here's your financial overview`
               : "Welcome! Here's your financial overview"}
@@ -179,7 +179,7 @@ export default function Dashboard() {
         )}
       </section>
 
-      <section className="flex flex-row gap-[1vw] justify-between">
+      <section className="flex flex-row gap-[1vw] justify-between text-white">
         <div className="dashboard-item flex flex-col w-full h-fit p-[1.5vw] gap-3 bg-[#191919] rounded-xl emboss">
           <div className="flex flex-row justify-between items-center">
             <span className="montserrat-bold typo-sub">Total Balance</span>
@@ -281,7 +281,7 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <section className="flex flex-row gap-10 justify-between">
+      <section className="flex flex-row gap-10 justify-between text-white">
         <section className="dashboard-item2 flex flex-col gap-3 w-full h-[25vw] p-[1vw] bg-[#191919] rounded-xl emboss">
           <h1>Recent Transactions</h1>
 
@@ -334,7 +334,7 @@ export default function Dashboard() {
           </button>
         </section>
 
-        <section className="dashboard-item2 flex flex-col gap-3 w-full h-[25vw] p-[1vw] bg-[#191919] rounded-xl emboss">
+        <section className="dashboard-item2 flex flex-col gap-3 w-full h-[25vw] p-[1vw] text-white bg-[#191919] rounded-xl emboss">
           <h1>Budget Overview</h1>
           <div className="flex flex-col w-full h-[90vw] overflow-y-auto">
             {budgets

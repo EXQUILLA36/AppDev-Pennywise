@@ -25,7 +25,7 @@ export default function Marketplace() {
   });
 
   return (
-    <div className="flex flex-col gap-10 p-5">
+    <div className="flex flex-col gap-10 p-5 text-white">
       <section className="w-[60%] flex flex-col gap-2 justify-between">
         <div className="flex gap-2 items-center shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] bg-[#191919] py-[0.5vw] px-[1vw] text-orange-500 montserrat-medium typo-par w-fit rounded-lg">
           <Sparkles size={24} color="#e85b09" /> Exclusive Saving Oppurtunities

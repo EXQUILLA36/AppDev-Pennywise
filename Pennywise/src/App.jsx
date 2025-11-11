@@ -73,7 +73,7 @@ export default function App() {
               alt="logo"
               className="w-[1.5vw] aspect-square"
             />
-            <h2 className="logo-text typo-par">Pennywise</h2>
+            <h2 className="logo-text text-white typo-par">Pennywise</h2>
           </div>
           <div className="navigation-links items-center flex gap-6">
             <SignedOut>

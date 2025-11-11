@@ -105,7 +105,7 @@ export default function Budget() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-10 p-5">
+    <div className="flex flex-col gap-10 p-5 text-white">
       <section className="w-full flex flex-row justify-between">
         <section className="leading-tight overflow-hidden">
           <h1 className="dashboard-header montserrat-bold text-white">
@@ -159,14 +159,14 @@ export default function Budget() {
         </span>
       </section>
 
-      <section className="dashboard-item grid grid-cols-3 gap-5 w-full overflow-y-auto custom-scrollbar h-[25vw] p-[1vw] rounded-lg">
+      <section className="dashboard-item grid grid-cols-3 gap-5 w-full overflow-y-auto custom-scrollbar h-[25vw] p-[1vw] rounded-lg text-white">
         {budgets.length === 0 ? (
           <p className="text-gray-400">No existing budgets</p>
         ) : (
           budgets.map((budget, index) => (
             <div
               key={index}
-              className="flex flex-col gap-[1vw] w-full h-fit bg-[#191919] dsahboard-item emboss rounded-lg p-[1vw]"
+              className="flex flex-col gap-[1vw] w-full h-fit bg-[#191919] text-white dsahboard-item emboss rounded-lg p-[1vw]"
             >
               <div className="flex flex-row gap-3 items-center">
                 <Icon name={budget.icons} size={"1.5vw"} color="orange" />
