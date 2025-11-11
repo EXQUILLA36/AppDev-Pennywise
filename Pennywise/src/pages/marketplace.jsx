@@ -1,11 +1,29 @@
 import React from "react";
 import { useAccount } from "@/utils/account";
 import { Sparkles, TrendingUp, SquareArrowOutUpRight } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 export default function Marketplace() {
   const account = useAccount();
 
-  if (!account) return;
+  useGSAP(() => {
+    gsap.from(".market-header", {
+      x: -50,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: "power4.inOut",
+    });
+    gsap.from(".dashboard-item", {
+      y: 50,
+      opacity: 0,
+      duration: 1.2,
+      stagger: 0.1,
+      ease: "power4.inOut",
+    });
+  });
+
   return (
     <div className="flex flex-col gap-10 p-5">
       <section className="w-[60%] flex flex-col gap-2 justify-between">
@@ -13,11 +31,11 @@ export default function Marketplace() {
           <Sparkles size={24} color="#e85b09" /> Exclusive Saving Oppurtunities
         </div>
         <section className="leading-tight overflow-hidden">
-          <h1 className="dashboard-header typo-head montserrat-bold text-white">
+          <h1 className="market-header typo-head montserrat-bold text-white">
             Discover the Best{" "}
             <span className="text-red-500">Savings Offer</span>
           </h1>
-          <h2 className="dashboard-header typo-par">
+          <h2 className="market-header typo-par">
             Maximize your savings with handpicked offers from top financial
             institutions. Compare rates, bonuses, and features to find the
             perfect fit for your goals.
@@ -66,7 +84,7 @@ export default function Marketplace() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h1 className="dashboard-header montserrat-bold text-white">
+        <h1 className="market-header montserrat-bold text-white">
           Featured Offers
         </h1>
 
@@ -169,7 +187,7 @@ export default function Marketplace() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h1 className="dashboard-header montserrat-bold text-white">
+        <h1 className="market-header montserrat-bold text-white">
           More Savings Oppurtunity
         </h1>
 
@@ -266,12 +284,11 @@ export default function Marketplace() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h1 className="dashboard-header montserrat-bold text-white">
+        <h1 className="market-header montserrat-bold text-white">
           Investment Oppurtunities
         </h1>
 
         <div className="w-full flex flex-row gap-[2vw] justify-between">
-
           <div className="flex flex-col gap-[1vw] p-[2vw] bg-[#191919] shadow-[-1px_-1px_5px_rgba(255,255,255,0.3),5px_4px_5px_rgba(0,0,0,1)] hover:shadow-[inset_-1px_-1px_5px_rgba(255,255,255,0.3),inset_5px_4px_5px_rgba(0,0,0,1)] hover:scale-101 transition-all duration-300 w-[50%] h-fit rounded-2xl">
             <div className="w-full flex flex-row items-center justify-between ">
               <span className="montserrat-bold text-gray-400 typo-par">
@@ -290,12 +307,8 @@ export default function Marketplace() {
             </span>
 
             <div className="w-full flex flex-row justify-between text-gray-400">
-              <span className="poppins-light typo-par">
-                Minimum:
-              </span>
-              <span className="poppins-light typo-par">
-                Php 500
-              </span>
+              <span className="poppins-light typo-par">Minimum:</span>
+              <span className="poppins-light typo-par">Php 500</span>
             </div>
 
             <a
@@ -326,12 +339,8 @@ export default function Marketplace() {
             </span>
 
             <div className="w-full flex flex-row justify-between text-gray-400">
-              <span className="poppins-light typo-par">
-                Minimum:
-              </span>
-              <span className="poppins-light typo-par">
-                Php 1000
-              </span>
+              <span className="poppins-light typo-par">Minimum:</span>
+              <span className="poppins-light typo-par">Php 1000</span>
             </div>
 
             <a
@@ -343,7 +352,6 @@ export default function Marketplace() {
               Learn More <SquareArrowOutUpRight size={16} />
             </a>
           </div>
-
         </div>
       </section>
     </div>

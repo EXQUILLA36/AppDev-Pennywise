@@ -109,21 +109,28 @@ export default function BalanceEditor({
       const source = newTransaction.source;
       let updatedWallet = { ...wallet };
 
+      // *Checks what kind of transaction type
       if (type === "Income") {
         updatedWallet.total_balance += amount;
         updatedWallet.total_income += amount;
+        // *If i's Expense, checks if a budget goal exist for it
       } else if (type === "Expense") {
         const budgetIndex = budgets.findIndex(
           (b) => b.budgetSource === transactionSource
         );
-        console.log("INDEX:", budgetIndex);
 
-        console.log("Expense Source:", transactionSource);
-        console.log(
-          "Budget Sources:",
-          budgets.map((b) => b.budgetSource)
-        );
+        if (amount > wallet.total_balance) {
+          console.log("You’re trying to spend more than your total balance!");
+          toast.warning(
+            `Not enough wallet balance! You only have ₱${wallet.total_balance.toLocaleString()} left.`
+          );
+          setPendingTransaction(newTransaction);
+          setPendingBudgetIndex(budgetIndex !== -1 ? budgetIndex : null);
+          setIsOpen(true);
+          return;
+        }
 
+        // *Gathers all the numerical data and process users transaction and checks if the remaining budget can handle the transaction
         if (budgetIndex !== -1) {
           const allocated = budgets[budgetIndex].amountAllocated;
           const used = budgets[budgetIndex].amountUsed;
@@ -132,6 +139,7 @@ export default function BalanceEditor({
           console.log("Amount:", amount);
           console.log("Remaining:", remaining);
 
+          // *Warns the user if the amount to spend is greater than the remaining budget balance
           if (amount > remaining) {
             console.log("You are spending way more than your allotted budget");
             toast.warning(
@@ -139,10 +147,12 @@ export default function BalanceEditor({
             );
             setPendingTransaction(newTransaction);
             setPendingBudgetIndex(budgetIndex);
-            setIsOpen(true); // open AlertDialog
-            return; // stop automatic update
+            // *Opens an alert box for user giving them warning that they are over spending
+            setIsOpen(true);
+            return;
           }
-          console.log("OKAy");
+
+          // *Updates the database if budget goal for the source doesn't exist
           budgets[budgetIndex] = {
             ...budgets[budgetIndex],
             amountUsed: used + amount,
@@ -151,6 +161,7 @@ export default function BalanceEditor({
         updatedWallet.total_balance -= amount;
         updatedWallet.total_expenses += amount;
       }
+      // *Updates the firebase
       await updateDoc(userRef, {
         wallet: updatedWallet,
         budgets: budgets,

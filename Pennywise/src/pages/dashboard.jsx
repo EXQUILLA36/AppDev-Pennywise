@@ -212,10 +212,10 @@ export default function Dashboard() {
             </h1>
             <span
               className={`text-lg ${
-                incomeExpenseRatio >= 100 ? "text-green-400" : "text-red-500"
+                incomeExpenseRatio >= 100 ? "text-orange-400" : "text-red-500"
               }`}
             >
-              {incomeExpenseRatio.toFixed(2)}%
+              {incomeExpenseRatio.toFixed(2)}% Has been spent
             </span>
           </div>
         </div>
@@ -242,7 +242,7 @@ export default function Dashboard() {
                   ? "text-red-500"
                   : incomeExpenseRatio > 80
                   ? "text-orange-400"
-                  : "text-green-400"
+                  : "text-orange-400"
               }
             >
               {incomeExpenseRatio.toFixed(2)}% of your income spent
